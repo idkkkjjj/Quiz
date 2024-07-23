@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Água</title>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:300" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.3/dist/confetti.browser.min.js"></script>
+    <script>
+        function requestFullScreen(element) {
+            var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullscreen;
+
+            if (requestMethod) {
+                requestMethod.call(element);
+            } else if (typeof window.ActiveXObject !== "undefined") {
+                var wscript = new ActiveXObject("WScript.Shell");
+                if (wscript !== null) {
+                    wscript.SendKeys("{F11}");
+                }
+            }
+        }
+
+        function shuffleButtons() {
+            const container = document.getElementById('button-container');
+            const buttons = Array.from(container.children);
+            buttons.sort(() => Math.random() - 0.5);
+            buttons.forEach(button => container.appendChild(button));
+        }
+
+        window.onload = function() {
+            shuffleButtons();
+            document.documentElement.addEventListener('click', function() {
+                requestFullScreen(document.documentElement);
+            });
+
+            const alt1Button = document.querySelector('.button-alt1');
+            const acertoSound = document.getElementById('som-acerto');
+
+            alt1Button.addEventListener('click', function() {
+                confetti({
+                    particleCount: 1000,
+                    spread: 700,
+                    origin: { y: 0.6 }
+                });
+
+                acertoSound.play();
+
+                alt1Button.classList.add('explosion');
+
+                setTimeout(function() {
+                    window.location.href = 'https://idkkkjjj.github.io/Mininu/Quiz2';
+                }, 8000); 
+            });
+
+            const alt2Buttons = document.querySelectorAll('.button-alt2');
+            const erroSound = document.getElementById('som-erro');
+
+            alt2Buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    erroSound.play();
+                    button.classList.add('explosionf');
+                });
+            });
+        };
+    </script>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: blue;
+            margin: 0;
+            font-family: Garamond, serif;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Retrato */
+        @media (orientation: portrait) {
+            html, body {
+                background-image: url('wallpaper.jpg');
+            }
+        }
+
+        /* Paisagem */
+        @media (orientation: landscape) {
+            html, body {
+                background-image: url('wallpaper2.jpg');
+            }
+        }
+
+        #image-container {
+            text-align: center;
+            margin-top: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        #image-container img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 5px; 
+        }
+
+        #image-container .message {
+            margin-top: 15px; 
+            color: black;
+            font-size: 24px;
+            font-family: 'Raleway', sans-serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        #button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 50px;
+            max-width: 460px;
+        }
+
+        button {
+            width: 200px;
+            height: 60px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            border-radius: 17px;
+            font-family: 'Raleway', sans-serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            transition: .6s;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.3);
+            color: #000;
+        }
+
+        button:focus {
+            outline: 0;
+        }
+
+        /* KABOOM acerto */
+        .explosion {
+            animation: explode 1s forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* KABOOM erro */
+        .explosionf {
+            animation: explodef 1s forwards;
+        }
+
+        @keyframes explodef {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Alternativa verdadeira */
+        .button-alt1 {
+            background: rgba(240, 248, 255, 0.5);
+        }
+
+        .button-alt1::before {
+            content: '';
+            display: block;
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            width: 60px;
+            height: 100%;
+            left: 0;
+            top: 0;
+            opacity: .5;
+            filter: blur(30px);
+            transform: translateX(-100px) skewX(-15deg);
+        }
+
+        .button-alt1::after {
+            content: '';
+            display: block;
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            width: 30px;
+            height: 100%;
+            left: 30px;
+            top: 0;
+            opacity: 0;
+            filter: blur(5px);
+            transform: translateX(-100px) skewX(-15deg);
+        }
+
+        .button-alt1:hover {
+            background: #338033;
+        }
+
+        .button-alt1:hover::before {
+            transform: translateX(300px) skewX(-15deg);
+            opacity: 0.6;
+            transition: .7s;
+        }
+
+        .button-alt1:hover::after {
+            transform: translateX(300px) skewX(-15deg);
+            opacity: 1;
+            transition: .7s;
+        }
+
+        /* Alternativa falsa */
+        .button-alt2 {
+            background: rgba(240, 248, 255, 0.5);
+        }
+
+        .button-alt2::before {
+            content: '';
+            display: block;
+            position: absolute;
+            background: rgba(255, 255, 255, 0.3);
+            width: 60px;
+            height: 100%;
+            left: 0;
+            top: 0;
+            opacity: .5;
+            filter: blur(30px);
+            transform: translateX(-100px) skewX(-15deg);
+        }
+
+        .button-alt2::after {
+            content: '';
+            display: block;
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            width: 30px;
+            height: 100%;
+            left: 30px;
+            top: 0;
+            opacity: 0;
+            filter: blur(5px);
+            transform: translateX(-100px) skewX(-15deg);
+        }
+
+        .button-alt2:hover {
+            background: #803339;
+        }
+
+        .button-alt2:hover::before {
+            transform: translateX(300px) skewX(-15deg);
+            opacity: 0.6;
+            transition: .7s;
+        }
+
+        .button-alt2:hover::after {
+            transform: translateX(300px) skewX(-15deg);
+            opacity: 1;
+            transition: .7s;
+        }
+    </style>
+</head>
+<body>
+    <div id="image-container">
+        <img src="imagem1.jpg" alt="Imagem 1">
+        <div class="message">Qual dos seguintes métodos é amplamente utilizado para desinfetar a água potável durante o tratamento?</div>
+    </div>
+    <div id="button-container">
+        <button class="button-alt1">Aplicação de cloro para eliminar microorganismos</button>
+        <button class="button-alt2">Processo de eletrólise para separar contaminantes</button>
+        <button class="button-alt2">Uso de mercúrio para matar bactérias</button>
+        <button class="button-alt2">Adição de ácido sulfúrico para purificar a água</button>
+    </div>
+    <audio id="som-acerto" src="acerto.mp3"></audio>
+    <audio id="som-erro" src="erro.mp3"></audio>
+</body>
+</html>
